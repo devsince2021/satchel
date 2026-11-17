@@ -1,0 +1,4 @@
+{
+  "설명": "작업 세션이 쓰면 안 되는 워크트리 안 자리의 정본 — quest open이 세션 settings deny `Edit(<워크트리>/<자리>)`로 싣는다(`<자리>/**` 안 한 폴더는 open --open <폴더>로 연다). 넘길 일 장부처럼 프로젝트 설정에서 나오는 자리는 코드(open)가 더한다. 읽는 코드는 src/scripts/quest/libs/rules.py 한 곳. 꼴은 src/rules/README.md.",
+  "paths": [".satchel/**", ".claude/settings.json", ".claude/hooks/**", ".claude/skills/**", "AGENTS.md", "CLAUDE.md"]
+}

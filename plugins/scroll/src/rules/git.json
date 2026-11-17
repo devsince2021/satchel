@@ -1,0 +1,16 @@
+{
+  "설명": "작업 세션이 쓰면 안 되는 git 명령의 정본 — 한 명령은 한 번만(하위 명령 이름, 그 인자일 때만 막으면 args), 항목마다 까닭(why). 어느 수단으로 막을지는 코드가 정한다: quest open이 세션 settings deny `Bash(git <명령>[ <인자>]:*)`와 세션 기록의 guard 목록(block_git·block_git_args — PreToolUse 훅 quest guard가 -C 뒤·sh -c·eval·$( )·셸 본문 안까지 풀어 읽는다)을 둘 다 이 목록에서 만든다. 읽는 코드는 src/scripts/quest/libs/rules.py 한 곳. 꼴은 src/rules/README.md.",
+  "commands": [
+    {"command": "push", "why": "올리기는 리드가 합친 뒤에 한다"},
+    {"command": "checkout", "why": "브랜치를 옮기거나 파일을 되돌린다 — 작업 세션은 제 브랜치에서 커밋으로만 고친다"},
+    {"command": "restore", "why": "고친 것을 기록 없이 버린다 — 되돌릴 일은 커밋으로 한다"},
+    {"command": "reset", "args": ["--hard"], "why": "커밋과 고친 것을 버린다 — 되돌릴 일은 새 커밋으로 한다"},
+    {"command": "stash", "why": "고친 것을 커밋 밖에 숨긴다 — 기록에 남지 않는다"},
+    {"command": "clean", "why": "추적하지 않는 파일을 기록 없이 지운다"},
+    {"command": "switch", "why": "다른 브랜치로 옮긴다 — 작업 세션은 제 브랜치 하나에서만 일한다"},
+    {"command": "merge", "why": "합치기는 리드 몫이다(quest merge)"},
+    {"command": "pull", "why": "받아서 합친다 — 합치기는 리드 몫이다"},
+    {"command": "rebase", "why": "가지 다시 쓰기는 리드 몫이다(합칠 때 리베이스한다)"},
+    {"command": "am", "why": "패치를 커밋으로 붙인다 — 가지에 무엇이 들어올지는 리드가 정한다"}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "satchel",
+  "description": "에이전트 운영 방식을 플러그인으로 나눠 모은 저장소. 플러그인 하나가 설치 단위다.",
+  "owner": { "name": "devsince2021" },
+  "plugins": [
+    {
+      "name": "scroll",
+      "description": "퀘스트 흐름 — 일 하나를 리드 세션과 작업 세션이 나눠 도는 흐름(요구 → 설계 → 검토 → 구현 → 검토 → 반영 → 마무리 → 합치기).",
+      "source": "./plugins/scroll",
+      "license": "MIT",
+      "category": "workflow"
+    }
+  ]
+}
