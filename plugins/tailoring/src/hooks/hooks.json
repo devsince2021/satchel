@@ -1,0 +1,35 @@
+{
+  "description": "seam 작업 세션 훅 — 작업 세션(작업 브랜치 + 세션 기록)에서만 판정하고, 그 밖의 세션에서는 아무것도 하지 않는다(종료 0)",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/src/scripts/seam/main.py\" guard"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent|Task|AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/src/scripts/seam/main.py\" guard"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/src/scripts/seam/main.py\" hold"
+          }
+        ]
+      }
+    ]
+  }
+}

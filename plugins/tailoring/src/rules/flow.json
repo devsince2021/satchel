@@ -1,0 +1,40 @@
+{
+  "설명": "seam 흐름 규칙의 정본 — 단계와 차례, 누가, 필수, 할 일 번호, 커밋 제목 꼴, 차례 규칙, 단계 사슬(시작 명령 step·커밋 때 확인·끝 확인이 같이 씀), 리뷰어 기다림. 끝 확인(status·inspect)·Stop 훅·합치기(부명령 join)가 이 파일을 읽고(src/scripts/seam/libs/rules.py 한 곳), SKILL.md·README의 생성 구역은 부명령 rules-doc이 이 파일에서 만든다. 고친 뒤에는 src/rules/README.md의 절차를 따른다.",
+  "steps": [
+    {"name": "req", "stage": "⓪ 요구사항", "by": "리드", "required": true},
+    {"name": "plan", "stage": "① 설계", "by": "작업 세션", "required": true},
+    {"name": "plan-review", "stage": "② 코드 전 검토", "by": "작업 세션", "required": true},
+    {"name": "test", "stage": "③ 구현 — 시험", "by": "작업 세션", "required": false, "todo": "선택", "tests_only": true,
+     "start_after": "plan", "note": "할 일이 모두 TDD 예외면 없다"},
+    {"name": "run", "stage": "③ 구현", "by": "작업 세션", "required": true, "todo": "필수"},
+    {"name": "review", "stage": "④ 코드 뒤 검토", "by": "작업 세션", "required": true},
+    {"name": "fix", "stage": "⑤ 리뷰 반영", "by": "작업 세션", "required": false,
+     "note": "고칠 것이 없으면 없다"},
+    {"name": "done", "stage": "⑥ 마무리", "by": "작업 세션", "required": true},
+    {"name": "merge", "stage": "합치기", "by": "리드", "required": false, "written_by": "seam join",
+     "note": "끝 확인 뒤에 부명령 join이 남긴다"}
+  ],
+  "commit": {
+    "title": "{id} {step}:",
+    "todo_ref": {"pattern": "#(\\d+)\\b", "shape": "#N", "many": "#2 #3"},
+    "bundle": {"sep": "·", "other_id": "[A-Z][A-Z0-9]*-\\d+"}
+  },
+  "order": {
+    "todo_first": {"first": "test", "then": "run"},
+    "no_code_before": {"steps": ["plan", "plan-review"], "until": "test"},
+    "exempt_fixed_at": {"step": "plan-review", "record": "plan.md"}
+  },
+  "chain": {"needs": "previous_required"},
+  "reviews": {
+    "before_code": {"step": "plan-review", "after": "plan", "reports": ["agents/plan-reviewer.md"]},
+    "after_code": {"step": "review", "after": "run", "reports": ["agents/behavior-reviewer.md", "agents/docs-reviewer.md"]}
+  },
+  "join": [
+    {"name": "check", "stage": "① 확인", "takes": [],
+     "does": "세션 기록이 있고 작업 세션 프로세스가 멈췄고 워크트리가 있다, 워크트리에서 끝 확인(inspect) 통과"},
+    {"name": "deliver", "stage": "② deliver", "takes": ["deliver.verify"],
+     "does": "deliver로 넣기 — 리베이스(통합 브랜치 위로) → 프로젝트 검사(비면 건너뜀) → 합치기 전에 기록 커밋(작업 목록 `끝`·장부 번호·회고 `## 닫을 장부 줄`대로 장부 줄 닫기)과 끝 확인 다시 → fast-forward"},
+    {"name": "cleanup", "stage": "③ 치우기", "takes": [],
+     "does": "세션 닫기(세션을 연 터미널 프리셋 또는 custom 닫기 틀) → 작업 세션 claude 멈춤 기다림 → 워크트리·작업 브랜치 지우기 → 세션 기록을 done/으로"}
+  ]
+}

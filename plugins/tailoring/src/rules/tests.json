@@ -1,0 +1,15 @@
+{
+  "설명": "시험 파일 판정의 정본 — 끝 확인(inspect)이 test 커밋은 시험 파일만 바꿨는지, 첫 test 커밋 앞 plan 커밋이 구현 파일을 건드렸는지 볼 때 쓴다. 언어별 흔한 시험 자리·이름을 모은 꼴 하나뿐이고 설정으로 받지 않는다 — 이 꼴로 못 가르는 파일은 ② 코드 전 검토에서 TDD 예외로 푼다. 읽는 코드는 src/scripts/seam/libs/rules.py 한 곳. 꼴은 src/rules/README.md.",
+  "patterns": [
+    "(?:^|/)tests?/",
+    "(?:^|/)__tests__/",
+    "(?:^|/)spec/",
+    "(?:^|/)src/(?:test|testFixtures)/",
+    "(?:^|/)test_[^/]*\\.py$",
+    "(?:^|/)[^/]*_test\\.(?:py|go|rb|exs)$",
+    "(?:^|/)[^/]*_spec\\.rb$",
+    "(?:^|/)[^/]*\\.(?:test|spec)\\.[cm]?[jt]sx?$",
+    "(?:^|/)[^/]*Tests?\\.(?:java|kt|cs|swift)$",
+    "(?:^|/)[^/]*Spec\\.(?:scala|groovy|kt)$"
+  ]
+}
